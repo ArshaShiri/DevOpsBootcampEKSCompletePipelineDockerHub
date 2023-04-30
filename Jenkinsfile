@@ -46,9 +46,20 @@ pipeline {
         }
 
         stage('deploy') {
+            environment {
+               // The IAM authenticator will need these two environemnt variables to be able to access
+               // AWS.
+               AWS_ACCESS_KEY_ID = credentials('jenkins_aws_access_key_id')
+               AWS_SECRET_ACCESS_KEY = credentials('jenkins_aws_secret_access_key')
+               APP_NAME = 'java-maven-app'
+            }
             steps {
                 script {
-                    echo 'deploying the application...'
+                   echo 'deploying docker image...'
+
+                   // Using envsubst, we can substitude the env variables with their actual name.
+                   sh 'envsubst < kubernetes/deployment.yaml | kubectl apply -f -'
+                   sh 'envsubst < kubernetes/service.yaml | kubectl apply -f -'
                 }
             }
         }
