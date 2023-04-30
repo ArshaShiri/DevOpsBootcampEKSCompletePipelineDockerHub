@@ -12,3 +12,16 @@ The Jenkinsfile is modified to deploy using the `deployment` and `service` yaml 
     # This package includes the tool for substituting env varibles which is called in the Jenkinsfile
     apt-get install gettext-base
     
+## Create Secret for DockerHub Credentials
+
+We need authentication from inside of the k8s cluster to be able to access docker hub. Having the kubectl connected to our EKS cluster, we can create this secret file once.
+
+    kubectl create secret docker-registry my-registry-key \
+    --docker-server=docker.io \
+    --docker-username={username} \
+    --docker-password={password}
+    
+    kubectl get secret
+     # NAME              TYPE                             DATA   AGE
+     # my-registry-key   kubernetes.io/dockerconfigjson   1      36s
+     
