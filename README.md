@@ -27,5 +27,4 @@ We need authentication from inside of the k8s cluster to be able to access docke
      
 Now that the secret is available, we can use it in our deployment file. (`imagePullSecrets` section in `deployment.yaml`)
 
-
 We can now run the pipeline in Jenkins.
